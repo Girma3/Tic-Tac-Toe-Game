@@ -50,36 +50,90 @@ return{diaplay}
   //initial empty cells first
   displayControl.diaplay()
   
+  
   //call the board and players factory
   //store the player moves in array
-   let playersMoves = GameBoard.getBoard()
-   let  player = players("girma","p")
-   let playerSecond = players("enken","Q")
-   let activePlayer  = player.playerMark;
-
+  let playersMoves = GameBoard.getBoard()
+  let playerArray = []
+   
+   let  player = players("girma","o")
+   let playerSecond = players("enken","x")
+  
+   let activePlayer  = player;
+   
    //function to mark specific cell with player token
   function grabmark(itemToMark){
     
-    //check all 9 cell are empty and player mark in array is less thsn 9 moves
+    //check all 9 cell are empty and player mark in array is less than 9 moves
     if(itemToMark.textContent == "" && playersMoves.length < 9){
+      
+      
       //store the moves (activeplayer mark in array called (get))
       playersMoves.push(swithTurn())
 
-      itemToMark.textContent = activePlayer
-      }
+      itemToMark.textContent = activePlayer.playerMark
+      //console.log(playersMoves)
+      //console.log(playerArray)
+     
+    
+     
+      
       
     } 
-  
-   //funstion to return active player mark 
+
+  }
+   //function to return active player mark 
    
    function swithTurn(){
     
-    activePlayer = activePlayer === player.playerMark ? playerSecond.playerMark : player.playerMark;
-    console.log(activePlayer)
-    return activePlayer
+    activePlayer = activePlayer === player ? playerSecond : player;
+    //console.log(activePlayer)
+    
+   
+    //return activePlayer
    }
-  
 
+   function checkwins(){
+    const winningConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+  ];
+  let gameState = document.querySelectorAll('button')
+  console.log(gameState)
+  for (let i = 0; i <= 7; i++) {
+    //grap the inner array from winingcombo[0,1,2]
+    const winCondition = winningConditions[i];
+    let a = gameState[winCondition[0]].textContent;
+    let b = gameState[winCondition[1]].textContent;
+    let c = gameState[winCondition[2]].textContent;
+    // if (a === '' || b === '' || c === '') {
+    //     continue;
+    // }
+    if(a == "") return
+    else if (a === b && b === c) {
+        console.log(winCondition)
+
+       let winnwr = document.querySelector('.who-won')
+       winnwr.textContent = activePlayer.playerName
+        // console.log(a == "o")
+        
+        
+        
+        break
+    }
+  }
+  }
+    
+  
+  
+  
+  
    
    
    
@@ -92,18 +146,23 @@ return{diaplay}
   
  
  
-  
+      
   function addMark(e){
     //grab the data atribute value of the clicked item and call grabmark function to mark it
    
     let item = document.querySelector(`[data-index='${e.target.dataset.index}']`)
-    grabmark(item)
-    //let my = document.querySelector('[data-index="6"]')
-    console.log(item)
-    console.log(playersMoves)
     
+    let index = e.target.dataset.index
+    
+    playerArray.push(Number(index))
     
 
+    
+    grabmark(item)
+    checkwins()
+    
+    
+    
   }
  
   let cells = document.querySelectorAll('.cell')
@@ -118,4 +177,4 @@ return{diaplay}
 GameController
 
 
- 
+
