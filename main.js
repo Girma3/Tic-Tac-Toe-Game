@@ -2,24 +2,18 @@
  const GameBoard = (function(){
   let board = [];
   const getBoard = () => board
-  
-  
- 
   return{getBoard}
 })();
-//factory function to make players name and mark
+
 
 //module too display the cells and player mark
 const displayControl = (function(){
   //render the board  with cell(buttons)
  const myBoard = GameBoard.getBoard();
- 
-  
-  const grid = document.querySelector('.board');
+ const grids = document.querySelector('.board');
   
   function display(){
-  const grid = document.querySelector('.board')
-  console.log(grid)
+  
     
     for(let j=0;j<9;j++){
      
@@ -30,20 +24,21 @@ const displayControl = (function(){
       //cellbutton text would be the player mark stored in array (myboard)
       cellButton.textContent = myBoard[j]
       
-      grid.appendChild(cellButton)
+      grids.appendChild(cellButton)
     }
     
-    
-  
   }
   
-  
-
-return{display}
+  return{display}
 })();
+const players = (playerName,playerMark)=>{
+  return{playerName,playerMark}
+}
+let p1 = players('gg',"x")
+ let p2 = players('ai','5')
 
-
-function GameController(playerOneName = 'player one',playerTwoName='player two'){
+//factory function to make players name and mark
+function GameController(){
 
   //call the board and players factory
   //store the player moves in array
@@ -51,13 +46,16 @@ function GameController(playerOneName = 'player one',playerTwoName='player two')
   let playersMoves = GameBoard.getBoard()
  
   const players = [
-    {
-      name:playerOneName,
-      playerMark:"x"
-    },
-    {
-      name:playerTwoName,
-    playerMark:"o"}
+    
+      // name:playerOneName,
+      // playerMark:"x"
+      p1
+    
+    ,
+    //   name:playerTwoName,
+    // playerMark: "b"
+    p2
+  
   ];
   
     
@@ -67,26 +65,20 @@ function GameController(playerOneName = 'player one',playerTwoName='player two')
    const swithTurn = ()=>{
      
      activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    
      
      
     }
     const getActivePlayer = ()=>activePlayer
-    const printBoard =()=>{
-      //displayControl.display()
-      let msgTurn = getActivePlayer().name
-      return msgTurn
-
-    }
+    
+    
+    // function to aaccept free cell or square 
     const playRound = (freeCell)=>{
       freeCell.textContent = getActivePlayer().playerMark
+      //update the array or store the marks to display it using display module
       GameBoard.getBoard().push(getActivePlayer().playerMark)
-    
-      
-      
-      
-      //check winner
-     
-      function checkwins(){
+    //check winner
+   function checkwins(){
        
         const winningConditions = [
           [0, 1, 2],
@@ -98,128 +90,130 @@ function GameController(playerOneName = 'player one',playerTwoName='player two')
           [0, 4, 8],
           [2, 4, 6]
       ];
-        
+       //grab allthe board or buttons 
       let gameState = document.querySelectorAll('.cell')
-     
-      
+     //loop through the winningconditon array
       for (let i = 0; i <= 7; i++) {
-        //console.log(gameState)
-        //grap the inner array from winingcombo[0,1,2]
+        
+        //grab the inner array or  winingcombo[0,1,2] etc..
+        //and a,b and c represent the 0,1,2 respectively depend on the inner array
         const winCondition = winningConditions[i];
         let a = gameState[winCondition[0]].textContent;
         let b = gameState[winCondition[1]].textContent;
         let c = gameState[winCondition[2]].textContent;
         
-        // if (a === '' || b === '' || c === '') {
-        //     continue;
-        // }
-        // console.log(a == "")
-        
-        
-         if (a === b && b === c && c != "") {
+        if (a === b && b === c && c != "") {
             console.log(winCondition)
-            
-    
-           let winnwr = document.querySelector('.who-won')
-           let haa = document.querySelector('h1')
-           haa.textContent = getActivePlayer().name
-             console.log(a)
-            //break
-        }
-      
-      }
-      
-    
-      }
+            let haa = document.querySelector('h2')
+           haa.textContent = `${getActivePlayer().playerMark}`
+            break
+          }
+       }
+    }
       checkwins()
       
       swithTurn()
+    
       
      
     }
-    //intial turn
-    printBoard()
+    
+    
     return{playRound,getActivePlayer}
    
 }
-  // function dropMark(itemToMark){
-    
-  //   //check all 9 cell are empty and player mark in array is less than 9 moves
-  //   if(itemToMark.textContent == "" && playersMoves.length < 9){
-      
-      
-  //     //store the moves (activeplayer mark in array called (get))
-  //     playersMoves.push(swithTurn())
-
-  //     itemToMark.textContent = activePlayer.playerMark
-  //     //console.log(playersMoves)
-  //     //console.log(playerArray)
-     
-    //   } 
+  
   
   function ScreenControll(){
     const game = GameController()
+    //render the board
     displayControl.display()
-    
     let playerturn = document.querySelector('h1');
-    // let cell = document.querySelector('.cell');
     const boardDiv = document.querySelector('.board')
-    
-   // playerturn.textContent = game.printBoard()
-   const updateScreen =()=>{
-   
-   
-    
-    
-   
-    let activeplayer = game.getActivePlayer();
-    let newBoard = GameBoard.getBoard()
-    console.log(newBoard)
-   
-    
 
-    
-    playerturn.textContent = `${activeplayer.name}'s turn`
-    
-   
-    
-   }
+  const updateScreen =()=>{
+      let activeplayer = game.getActivePlayer();
+      console.log(activeplayer)
+      playerturn.textContent = `${activeplayer.playerMark}'s turn`
+    }
+
    function handleClick(e){
     
     let cellClicked = e.target.dataset.index
     const cell =  document.querySelector(`[data-index='${e.target.dataset.index}']`)
-    
      if(cell.textContent != "" || !cellClicked)return
-    else{
      
+    //if we play with ai caheck playname is "ai" active computer move else play by click
+     else if(game.getActivePlayer().playerName !== 'ai'){
+      
       game.playRound(cell)
      
-     // console.log(GameBoard.getBoard())
-      updateScreen()
+
      
-    }
+      updateScreen()
+      if(game.getActivePlayer().playerName == 'ai'){
+        game.playRound(computerMoves())
+          updateScreen()
+      }
+     
+     
+      
+      
+      
 
-   
-
-
-   }
-   
-   
-    boardDiv.addEventListener("click",handleClick)
+     }
     
-
-    //console.log(boardDiv)
-  
-updateScreen()
-
-
-  
+    
+ 
+    //  
+      
+ 
+     
+    
+    
+      
+      // updateScreen()
+      
+  }
+   boardDiv.addEventListener("click",handleClick)
+    updateScreen()
 }
 ScreenControll()
 
-
-   
+function computerMoves(){
+  const cells = document.querySelectorAll('.cell')
+  let texts;
   
+  //for(let i = 0;i <= cells;i++){
+ 
+    let computerMoves =  Math.floor(Math.random() * 9)
+   
+    let mark = cells[computerMoves]
+   
+   
+  for(let i=0;i<=cells.length;i++){
+      computerMoves =Math.floor(Math.random() * 9)
+      mark = cells[computerMoves]
+      if(mark.textContent == ""){
+        texts = mark
+       
+        return texts
+        console.log(texts)
+        
+      }
+      
+    
+    
+   }
+   
+  //}
+    
+  return mark
+//console.log(computerMoves)
+   
+}
+computerMoves()
+ 
   
  
   
@@ -233,19 +227,7 @@ ScreenControll()
     
   
   
-  
-  // function addMark(e){
-  //   //grab the data atribute value of the clicked item and call grabmark function to mark it
-   
-  //   let item = document.querySelector(`[data-index='${e.target.dataset.index}']`)
-    
-  //   let index = e.target.dataset.index
-    
-  //   playerArray.push(Number(index))
-  //   grabmark(item)
-  //   checkwins()
-    
-  //   }
+
  
   
   
