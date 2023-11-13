@@ -194,11 +194,15 @@ h1:hover{
     color: #E300FC;
 }
 .play-again{
+    background-color: rgb(0, 0, 0);
+    color:yellow;
     padding: 2rem;
+    border-radius: 1rem;
     font-size: 1rem;
     font-weight: 600;
+    border:3px solid red;
 }
 .play-again:hover{
-    background-color: #000000;
-    color:yellow;
+   background-color: white;
+    color:rgb(0, 0, 0);
 }
