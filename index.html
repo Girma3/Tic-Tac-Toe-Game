@@ -10,42 +10,55 @@
 <body>
    
    <main>
+   <div class="info">
+        <div class="left-side-player">
+            <h3 class="player-one-name"></h3>
+           <div class="player-x-score"></div>
+        </div>
+        <div class="right-side-player">
+            <h3 class="player-two"></h3>
+            <div class="player-o-score"></div>
+        </div>
+        
+    </div> 
+
+    <h2 class="turn"></h2>
+    <div class="board"></div>
     
-    <div class="who-won"></div>
-    <div class="board">
-        
-        
+    <div class="winner">
+        <h1 class="result-msg"></h1>
+        <button class="play-again">Play Again</button>
     </div>
    </main>
    <div class="players">
-    <!-- <dialog> -->
+     <dialog> 
         <form >
             <div  class="modal">
                 <div class="player-one">
                     <label for="player-one">player 1 name:</label>
-                    <input type="text" id="player-one" data-name="player-x" class="name-input" required>
+                    <input type="text" id="player-one" data-name="player-x" class="name-input" required/>
                     <div>Remember: payer 1 choose the mark</div>
                 <div class="option-mark">
                     
-                    <label for="player-mark">X</label>
-                    <input type="checkbox" name="mark-x" id="player-mark" class="checkbox-input" >
+                    <label for="mark-x">X</label>
+                    <input type="radio"  id="mark-x" value ="X" class="checkbox-input" >
                     <span>or</span>
-                    <label for="player-mark-option">O</label>
-                    <input type="checkbox" name="mark-o" id="player-mark-option" class="checkbox-input">
+                    <label for="mark-o">O</label>
+                    <input type="radio" id = "mark-o" value = "O" class="checkbox-input">
                     <p class="checkbox-msg">Mark only one checkbok</p>
                 </div>
                 </div>
                 
                 <label for="player-two">player 2 name:</label>
-                <input type="text" id="player-two" data-name="player-o" class="name-input" required>
+                <input type="text" id="player-two" data-name="player-o" class="name-input" required/>
                 <div>
-                    <button class="play-btn">Play</button>
+                    <button type="submit" class="play-btn">Play</button>
                 </div>
             </div>
            
         </form>
 
-    <!-- </dialog> -->
+     </dialog> 
 
     
     </div>
@@ -54,12 +67,13 @@
         <div class="header">
             <h1>Tic Tac Toe Game </h1>
             <div class="option-btn">
-           <div> <button class="player-game">Player-1 vs Player-2</button></div>
+           <div> <button class="human-game">Player-1 vs Player-2</button></div>
             <div><button class="ai-game">Human vs Ai</button></div>
         </div>
             
         </div>
         
     </div>
+    
 </body>
 </html>
